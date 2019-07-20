@@ -1,3 +1,0 @@
-- apt:
-    name: expect
-    state: present

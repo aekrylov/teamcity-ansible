@@ -1,3 +1,5 @@
-- yum:
-    name: expect
+- name: install Redhat-specific usability packages
+  yum:
+    name:
+      - bash-completion-extras
     state: present

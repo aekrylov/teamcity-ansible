@@ -1,3 +1,16 @@
+- name: install tools needed for other tasks
+  package:
+    name: expect
+    state: present
+
+- name: install usability packages
+  package:
+    name:
+      - vim
+      - tmux
+      - bash-completion
+    state: present
+
 - import_tasks: redhat.yml
   when: ansible_facts['os_family']|lower == 'redhat'
 
