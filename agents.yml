@@ -1,0 +1,28 @@
+- name: configure build agents
+  hosts: all
+  remote_user: root
+  roles:
+    - common
+  vars:
+    npm_private: http://repo.cg.ru/repository/npm-private/
+    npm_user: teamcity
+    npm_email: teamcity@example.com
+  vars_files:
+    - .env.yml
+
+  tasks:
+    - name: npm login to private repo
+      environment:
+        NPM_USER: "{{ npm_user }}"
+        NPM_PASSWORD: "{{ npm_password }}"
+        NPM_EMAIL: "{{ npm_email }}"
+      shell:
+        cmd: |
+          expect <<EOD
+          spawn npm adduser --registry {{ npm_private }}
+          expect {
+            "Username:" {send "$NPM_USER\r"; exp_continue}
+            "Password:" {send "${NPM_PASSWORD}\r"; exp_continue}
+            "Email: (this IS public)" {send "$NPM_EMAIL\r"; exp_continue}
+          }
+          EOD
