@@ -1,0 +1,5 @@
+- name: install Debian-specific packages
+  apt:
+    name:
+      - p7zip-full
+    state: present

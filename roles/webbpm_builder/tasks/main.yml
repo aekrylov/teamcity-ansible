@@ -1,0 +1,32 @@
+- name: install builder packages
+  package:
+    name:
+      - zip
+      - unzip
+      - cabextract
+      - wget
+      - curl
+      - p7zip
+    state: present
+
+- import_tasks: redhat.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+
+- import_tasks: debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'
+
+- name: npm login to private repo
+  environment:
+    NPM_USER: "{{ npm_user }}"
+    NPM_PASSWORD: "{{ npm_password }}"
+    NPM_EMAIL: "{{ npm_email }}"
+  shell:
+    cmd: |
+      expect <<EOD
+      spawn npm adduser --registry {{ npm_private }}
+      expect {
+        "Username:" {send "$NPM_USER\r"; exp_continue}
+        "Password:" {send "${NPM_PASSWORD}\r"; exp_continue}
+        "Email: (this IS public)" {send "$NPM_EMAIL\r"; exp_continue}
+      }
+      EOD
