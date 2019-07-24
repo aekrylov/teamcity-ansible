@@ -9,6 +9,8 @@
       - vim
       - tmux
       - bash-completion
+      - sysstat
+      - ncdu
     state: present
 
 - import_tasks: redhat.yml
