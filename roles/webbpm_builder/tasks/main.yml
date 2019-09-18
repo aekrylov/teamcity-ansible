@@ -37,12 +37,7 @@
   shell:
     cmd: echo $DOCKER_PASSWORD | docker login --username {{ nexus_user }} --password-stdin {{ docker_private }}
 
-- name: check that local settings.xml exists
-  local_action: stat path=data/settings.xml
-  register: settings_xml
-
 - name: copy maven settings.xml
-  when: settings_xml.stat.exists
-  copy:
-    src: data/settings.xml
-    dest: /root/.m2/
+  template:
+    src: settings.xml.j2
+    dest: /root/.m2/settings.xml
