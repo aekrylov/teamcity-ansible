@@ -1,4 +1,4 @@
 npm_private: http://repo.cg.ru/repository/npm-private/
 docker_private: repo.center.cg:8082
-npm_user: teamcity
+nexus_user: teamcity
 npm_email: teamcity@example.com
